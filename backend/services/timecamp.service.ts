@@ -1,30 +1,29 @@
-import { ActivityData } from "../types";
+import { ActivityData, ActivityParams } from "../types";
 
 export class TimeCampService {
-  private apiKey: string;
   private baseUrl = "https://app.timecamp.com/third_party/api";
   // private baseUrl = "https://v4.api.timecamp.com";
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
-  async fetchActivities(dates: string[]): Promise<ActivityData[]> {
+  async fetchActivities(
+    activityParams: ActivityParams,
+  ): Promise<ActivityData[]> {
     try {
-      // Build query parameters
       const params = new URLSearchParams();
-      dates.forEach((date) => {
+      activityParams.dates.forEach((date) => {
         params.append("dates[]", date);
-        params.append("user_id", "2584891");
       });
+      params.append("user_id", activityParams.userId);
 
       const url = `${this.baseUrl}/activity?${params.toString()}`;
-      console.log("url", url);
 
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${this.apiKey}`,
+          /*
+           * NOTE(kjesien): Usually token is obtained from login session data or in the case of API keys from .env files
+           * In this case, we are using the token directly from the params as I don't fully understand the behavior of API
+           */
+          Authorization: `Bearer ${activityParams.userToken}`,
           "Content-Type": "application/json",
           Accept: "application/json",
         },

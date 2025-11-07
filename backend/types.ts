@@ -15,8 +15,16 @@ export interface IpcResponse<T> {
   error?: string;
 }
 
+export interface ActivityParams {
+  dates: string[];
+  userId: string;
+  userToken: string;
+}
+
 export interface ElectronAPI {
-  fetchActivities: (dates: string[]) => Promise<IpcResponse<ActivityData[]>>;
+  fetchActivities: (
+    params: ActivityParams,
+  ) => Promise<IpcResponse<ActivityData[]>>;
   getActivities: (dates: string[]) => Promise<IpcResponse<ActivityData[]>>;
   getAllActivities: () => Promise<IpcResponse<ActivityData[]>>;
   clearActivities: () => Promise<IpcResponse<void>>;

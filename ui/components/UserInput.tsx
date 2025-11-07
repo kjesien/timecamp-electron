@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { InfoMessage } from "./InfoMessage.tsx";
 
 interface UserIdInputProps {
   onChange: (userId: string, userToken: string) => void;
@@ -17,10 +18,10 @@ export function UserInput({
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <div className="flex flex-wrap gap-4 items-end">
-        <div className="flex-1 min-w-[200px]">
+        <div className="flex-1 min-w-[200px] gap-2 flex flex-col">
           <label
             htmlFor="user-id-input"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             User Id & User Token
           </label>
@@ -48,6 +49,7 @@ export function UserInput({
               spellCheck={false}
             />
           </div>
+          <InfoMessage message="Usually token is obtained from login session data or in the case of API keys from .env files. In this case, I'm using the token directly from the input as I don't fully understand the behavior of API" />
         </div>
       </div>
     </div>

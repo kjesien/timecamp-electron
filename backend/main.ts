@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { DatabaseService } from "./services/database.service";
 import { TimeCampService } from "./services/timecamp.service";
 import dotenv from "dotenv";
+import { ActivityParams } from "./types.ts";
 
 dotenv.config();
 
@@ -71,21 +72,16 @@ function createWindow() {
 
 // Initialize services
 function initializeServices() {
-  const apiKey = process.env.TIMECAMP_API_KEY;
-  if (!apiKey) {
-    console.error("TIMECAMP_API_KEY is not set in .env file");
-  }
-
   databaseService = new DatabaseService();
-  timeCampService = new TimeCampService(apiKey || "");
+  timeCampService = new TimeCampService();
 }
 
 // IPC Handlers
 function setupIpcHandlers() {
   // Fetch activities from API and store in database
-  ipcMain.handle("fetch-activities", async (_event, dates: string[]) => {
+  ipcMain.handle("fetch-activities", async (_event, params: ActivityParams) => {
     try {
-      const activities = await timeCampService.fetchActivities(dates);
+      const activities = await timeCampService.fetchActivities(params);
       databaseService.saveActivities(activities);
       return { success: true, data: activities };
     } catch (error) {

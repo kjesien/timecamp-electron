@@ -4,17 +4,20 @@ import { ActivityTable } from "../components/ActivityTable";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { ActivityData } from "../../backend/types";
-import { ActivityParams, ParamsInput } from "../components/ParamsInput.tsx";
+import {
+  ParamsInput,
+  SchemaActivityParams,
+} from "../components/ParamsInput.tsx";
 import { useQuery } from "@tanstack/react-query";
 
 export const Activity: FC = () => {
-  const [params, setParams] = useState<ActivityParams>();
+  const [params, setParams] = useState<SchemaActivityParams>();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["activities", params],
-    queryFn: () => window.electronAPI.fetchActivities(params?.dates || []),
+    queryFn: () => window.electronAPI.fetchActivities(params!),
     select: (response): ActivityData[] => response?.data || [],
-    enabled: Boolean(params?.dates),
+    enabled: Boolean(params),
   });
 
   return (
