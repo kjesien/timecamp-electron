@@ -112,5 +112,3 @@ The application uses the TimeCamp API to fetch activity data:
 - **Authentication**: Bearer token (API key)
 - **Method**: GET
 - **Parameters**: `dates[]` - Array of date strings (YYYY-MM-DD)
-
-## Troubleshooting
