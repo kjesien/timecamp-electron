@@ -16,13 +16,11 @@ export class TimeCampService {
 
       const url = `${this.baseUrl}/activity?${params.toString()}`;
 
+      console.log("Fetching activities from TimeCamp API:", url);
+
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          /*
-           * NOTE(kjesien): Usually token is obtained from login session data or in the case of API keys from .env files
-           * In this case, we are using the token directly from the params as I don't fully understand the behavior of API
-           */
           Authorization: `Bearer ${activityParams.userToken}`,
           "Content-Type": "application/json",
           Accept: "application/json",

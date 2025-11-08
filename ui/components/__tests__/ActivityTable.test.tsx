@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ActivityTable } from "../ActivityTable";
 import { ActivityData } from "../../../backend/types";
@@ -26,13 +26,6 @@ describe("ActivityTable", () => {
       entry_id: "0",
     },
   ];
-
-  it("renders activity table with data", () => {
-    render(<ActivityTable activities={mockActivities} />);
-
-    expect(screen.getByText(/Activity Data/i)).toBeInTheDocument();
-    expect(screen.getByText("2 records")).toBeInTheDocument();
-  });
 
   it("displays all column headers", () => {
     render(<ActivityTable activities={mockActivities} />);

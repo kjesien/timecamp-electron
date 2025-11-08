@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "./ErrorMessage.tsx";
 import { useLocalStorage } from "react-use";
+import { FORM_LOCAL_STORAGE_KEY } from "../utils/consts.ts";
 
 const invalidUserId = "Provide valid User Id";
 const invalidToken = "Provide valid Token";
@@ -32,7 +33,7 @@ export const ParamsInput: FC<ParamsInputProps> = ({
   isLoading,
 }) => {
   const [prevFormValues, persistFormValues] =
-    useLocalStorage<SchemaActivityParams>("activity/form", {
+    useLocalStorage<SchemaActivityParams>(FORM_LOCAL_STORAGE_KEY, {
       dates: [],
       userToken: "",
       userId: "",
@@ -63,41 +64,39 @@ export const ParamsInput: FC<ParamsInputProps> = ({
   )[0];
 
   return (
-    <div>
-      <div className="mb-6 gap-3 flex flex-col">
-        <UserInput
-          initialUserId={values.userId}
-          initialUserToken={values.userToken}
-          onChange={async (userId, userToken) => {
-            form.setValue("userId", userId);
-            form.setValue("userToken", userToken);
-            await form.trigger();
-          }}
-        />
-        <DateSelector
-          selectedDates={values.dates}
-          max={maxDates}
-          onDatesChange={async (dates) => {
-            form.setValue("dates", dates);
-            await form.trigger();
-          }}
-        />
+    <div className="mb-6 gap-3 flex flex-col">
+      <UserInput
+        initialUserId={values.userId}
+        initialUserToken={values.userToken}
+        onChange={async (userId, userToken) => {
+          form.setValue("userId", userId);
+          form.setValue("userToken", userToken);
+          await form.trigger();
+        }}
+      />
+      <DateSelector
+        selectedDates={values.dates}
+        max={maxDates}
+        onDatesChange={async (dates) => {
+          form.setValue("dates", dates);
+          await form.trigger();
+        }}
+      />
 
-        {firstError?.error.message && (
-          <ErrorMessage
-            message={`${firstError.key}: ${firstError.error.message}`}
-          />
-        )}
-        <button
-          onClick={() => {
-            onParamsChange(values);
-          }}
-          disabled={!form.formState.isValid || isLoading}
-          className=" py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors"
-        >
-          Apply
-        </button>
-      </div>
+      {firstError?.error.message && (
+        <ErrorMessage
+          message={`${firstError.key}: ${firstError.error.message}`}
+        />
+      )}
+      <button
+        onClick={() => {
+          onParamsChange(values);
+        }}
+        disabled={!form.formState.isValid || isLoading}
+        className="py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors"
+      >
+        Apply
+      </button>
     </div>
   );
 };

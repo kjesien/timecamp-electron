@@ -25,8 +25,7 @@ export interface ElectronAPI {
   fetchActivities: (
     params: ActivityParams,
   ) => Promise<IpcResponse<ActivityData[]>>;
-  getActivities: (dates: string[]) => Promise<IpcResponse<ActivityData[]>>;
-  getAllActivities: () => Promise<IpcResponse<ActivityData[]>>;
+  getDBActivities: (dates: string[]) => Promise<IpcResponse<ActivityData[]>>;
   clearActivities: () => Promise<IpcResponse<void>>;
 }
 

@@ -1,4 +1,24 @@
+import { NavLink } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { FC } from "react";
+
+const NavBtn: FC<{ to: string; label: string }> = ({ to, label }) => (
+  <NavLink
+    to={to}
+    className={({ isActive }) =>
+      [
+        "rounded-md px-3 py-1.5 text-sm transition-colors",
+        "hover:bg-neutral-100 hover:text-neutral-900",
+        "dark:hover:bg-neutral-800 dark:hover:text-neutral-100",
+        isActive
+          ? "bg-neutral-200 font-medium text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
+          : "text-neutral-600 dark:text-neutral-300",
+      ].join(" ")
+    }
+  >
+    {label}
+  </NavLink>
+);
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -15,6 +35,10 @@ export function Header() {
               Monitor and track your user activity data
             </p>
           </div>
+          <nav className=" flex items-center gap-2">
+            <NavBtn to="/activity" label="Activity" />
+            <NavBtn to="/activity-db" label="Activity From DB" />
+          </nav>
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"

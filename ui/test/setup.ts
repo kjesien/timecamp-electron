@@ -10,8 +10,7 @@ afterEach(() => {
 // Mock electron API
 global.window.electronAPI = {
   fetchActivities: vi.fn(),
-  getActivities: vi.fn(),
-  getAllActivities: vi.fn(),
+  getDBActivities: vi.fn(),
   clearActivities: vi.fn(),
 };
 
